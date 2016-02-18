@@ -36,6 +36,8 @@ public class Syllabary {
 		_chr2translit=_chr2translit();
 	}
 	
+	private static final String latin_vowels="aeiouvạẹịọụṿ";
+	private static final String optional_valid_tones="(²³|³²|¹|²|³|⁴)?";
 	public static String asLatinMatchPattern(String syllabary) {
 		StringBuilder sb = new StringBuilder();
 		for (char c : syllabary.toCharArray()) {
@@ -45,6 +47,8 @@ public class Syllabary {
 			}
 			sb.append("(");
 			boolean start=true;
+			String r1 = Matcher.quoteReplacement("["+latin_vowels+"]?");
+			String q =  Matcher.quoteReplacement("?");
 			for (Entry<String, String> entry : _lat2chr.entrySet()) {
 				if (!entry.getValue().equals(String.valueOf(c))) {
 					continue;
@@ -54,20 +58,33 @@ public class Syllabary {
 				}
 				start=false;
 				String pat = entry.getKey();
-				String r1 = Matcher.quoteReplacement("[aeiouvạẹịọụṿ]?");
-				pat = pat.replaceAll("[aeiouvạẹịọụṿ]", r1);
-				pat += "(h?ɂ?)";
-				pat += "([¹²³⁴]*)";
-				pat += "(h?ɂ?)";
+				if (pat.startsWith("g") && pat.length()==2){
+					sb.append("k|");
+				}
+				if (pat.matches(".*[aeiouv]")){
+					if (pat.length()!=1) {
+						pat=pat.replaceAll("(.*?)([aeiouv])", "$1($2?)");
+					}
+					pat=pat.replace("a", "[aạ]");
+					pat=pat.replace("e", "[eẹ]");
+					pat=pat.replace("i", "[iị]");
+					pat=pat.replace("o", "[oọ]");
+					pat=pat.replace("u", "[uụ]");
+					pat=pat.replace("v", "[vṿ]");
+				}
+				pat += "(h|ɂ)?";
+				pat += optional_valid_tones;
+				pat += "(h|ɂ)?";
 				sb.append(pat);
 			}
 			//specials
 			if (!start && c == 'Ꭲ') {
-				sb.append("|y[¹²³⁴]+");
+				sb.append("|y"+optional_valid_tones+"(h|ɂ)?");
 			}
 			sb.append(")");
 		}
-		return sb.toString();
+		//"(?iu)"+
+		return "(?iu)"+sb.toString();
 	}
 	
 	private static Map<String, String> _chr2lat() {
@@ -195,6 +212,13 @@ public class Syllabary {
 			letter = Character.toString((char) (chrStart + ix - 1));
 			latin2syllabary.put(prefix + vowels[ix], letter);
 		}
+		
+		prefix = "hn";
+		chrStart = 'Ꮑ';
+		for (ix = 1; ix < 6; ix++) {
+			letter = Character.toString((char) (chrStart + ix - 1));
+			latin2syllabary.put(prefix + vowels[ix], letter);
+		}
 
 		prefix = "qu";
 		chrStart = 'Ꮖ';
@@ -204,6 +228,13 @@ public class Syllabary {
 		}
 
 		prefix = "gw";
+		chrStart = 'Ꮖ';
+		for (ix = 0; ix < 6; ix++) {
+			letter = Character.toString((char) (chrStart + ix));
+			latin2syllabary.put(prefix + vowels[ix], letter);
+		}
+		
+		prefix = "kw";
 		chrStart = 'Ꮖ';
 		for (ix = 0; ix < 6; ix++) {
 			letter = Character.toString((char) (chrStart + ix));
@@ -249,7 +280,7 @@ public class Syllabary {
 		}
 		
 		prefix = "dl";
-		chrStart = 'Ꮮ';
+		chrStart = 'Ꮭ';
 		for (ix = 1; ix < 6; ix++) {
 			letter = Character.toString((char) (chrStart + ix));
 			latin2syllabary.put(prefix + vowels[ix], letter);
@@ -282,8 +313,22 @@ public class Syllabary {
 			letter = Character.toString((char) (chrStart + ix));
 			latin2syllabary.put(prefix + vowels[ix], letter);
 		}
+		
+		prefix = "hw";
+		chrStart = 'Ꮹ';
+		for (ix = 0; ix < 6; ix++) {
+			letter = Character.toString((char) (chrStart + ix));
+			latin2syllabary.put(prefix + vowels[ix], letter);
+		}
 
 		prefix = "y";
+		chrStart = 'Ꮿ';
+		for (ix = 0; ix < 6; ix++) {
+			letter = Character.toString((char) (chrStart + ix));
+			latin2syllabary.put(prefix + vowels[ix], letter);
+		}
+		
+		prefix = "hy";
 		chrStart = 'Ꮿ';
 		for (ix = 0; ix < 6; ix++) {
 			letter = Character.toString((char) (chrStart + ix));

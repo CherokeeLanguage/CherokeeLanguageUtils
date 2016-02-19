@@ -36,8 +36,8 @@ public class Syllabary {
 		_chr2translit=_chr2translit();
 	}
 	
-	private static final String latin_vowels="aeiouvạẹịọụṿ";
-	private static final String optional_valid_tones="(²³|³²|¹|²|³|⁴)?";
+//	private static final String latin_vowels="aeiouvạẹịọụṿ";
+	private static final String optional_valid_tones="(³⁴|⁴³|²³|³²|¹|²|³|⁴)?";
 	public static String asLatinMatchPattern(String syllabary) {
 		StringBuilder sb = new StringBuilder();
 		for (char c : syllabary.toCharArray()) {
@@ -47,8 +47,6 @@ public class Syllabary {
 			}
 			sb.append("(");
 			boolean start=true;
-			String r1 = Matcher.quoteReplacement("["+latin_vowels+"]?");
-			String q =  Matcher.quoteReplacement("?");
 			for (Entry<String, String> entry : _lat2chr.entrySet()) {
 				if (!entry.getValue().equals(String.valueOf(c))) {
 					continue;
@@ -58,24 +56,28 @@ public class Syllabary {
 				}
 				start=false;
 				String pat = entry.getKey();
-				if (pat.startsWith("g") && pat.length()==2){
-					sb.append("k|");
-				}
 				if (pat.matches(".*[aeiouv]")){
 					if (pat.length()!=1) {
 						pat=pat.replaceAll("(.*?)([aeiouv])", "$1($2?)");
 					}
-					pat=pat.replace("a", "[aạ]");
-					pat=pat.replace("e", "[eẹ]");
-					pat=pat.replace("i", "[iị]");
-					pat=pat.replace("o", "[oọ]");
-					pat=pat.replace("u", "[uụ]");
-					pat=pat.replace("v", "[vṿ]");
+					pat=pat.replace("a", "[aạAẠ]");
+					pat=pat.replace("e", "[eẹEẸ]");
+					pat=pat.replace("i", "[iịIỊ]");
+					pat=pat.replace("o", "[oọOỌ]");
+					pat=pat.replace("u", "[uụUỤ]");
+					pat=pat.replace("v", "[vṿVṾ]");
 				}
 				pat += "(h|ɂ)?";
 				pat += optional_valid_tones;
 				pat += "(h|ɂ)?";
 				sb.append(pat);
+				if (entry.getKey().equals("s")){
+					sb.append("|s");
+					continue;
+				}
+				if (entry.getKey().startsWith("g") && entry.getKey().length()==2){
+					sb.append("|k");
+				}
 			}
 			//specials
 			if (!start && c == 'Ꭲ') {

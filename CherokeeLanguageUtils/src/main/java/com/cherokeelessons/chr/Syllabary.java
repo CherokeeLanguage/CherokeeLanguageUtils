@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,7 +43,7 @@ public class Syllabary {
 		StringBuilder sb = new StringBuilder();
 		for (char c : syllabary.toCharArray()) {
 			if (!String.valueOf(c).matches("[Ꭰ-Ᏼ]")){
-				sb.append(c);
+				sb.append(Pattern.quote(String.valueOf(c)));
 				continue;
 			}
 			sb.append("(");

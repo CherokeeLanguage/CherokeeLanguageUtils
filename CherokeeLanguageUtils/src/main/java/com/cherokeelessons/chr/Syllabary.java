@@ -41,7 +41,13 @@ public class Syllabary {
 	private static final String optional_valid_tones="(³⁴|⁴³|²³|³²|¹|²|³|⁴)?";
 	public static String asLatinMatchPattern(String syllabary) {
 		StringBuilder sb = new StringBuilder();
-		for (char c : syllabary.toCharArray()) {
+		
+		for (int i=0; i<syllabary.length(); i++) {
+			char c=syllabary.charAt(i);
+			Character b=null;
+			if (i>0) {
+				b=syllabary.charAt(i-1);
+			}
 			if (!String.valueOf(c).matches("[Ꭰ-Ᏼ]")){
 				sb.append(Pattern.quote(String.valueOf(c)));
 				continue;
@@ -83,6 +89,9 @@ public class Syllabary {
 			//specials
 			if (!start && c == 'Ꭲ') {
 				sb.append("|y"+optional_valid_tones+"(h|ɂ)?");
+			}
+			if (b!=null && c=='Ꮝ' && b>='Ꮳ' && b<='Ꮸ') {
+				sb.append("|s?");
 			}
 			sb.append(")");
 		}

@@ -1,5 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
+apply plugin: 'maven'
+
+group "com.github.michael-joyner"
 
 sourceCompatibility = 1.7
 compileJava.options.encoding = 'UTF-8'
@@ -9,18 +12,19 @@ if (new File(RTJAR).exists()) {
 	compileJava.options.bootClasspath=RTJAR
 }
 
-jar {
-  from project.sourceSets.main.allSource
-  from project.sourceSets.main.output
-  from ('src/main/resources') {
-  	include 'client/stubs/**/*.java'
-  }
-}
+//jar {
+//  from project.sourceSets.main.allSource
+//  from project.sourceSets.main.output
+//  from ('src/main/resources') {
+//  	include 'client/stubs/**/*.java'
+//  }
+//}
 
-version = '20160129'
+version = '20160731'
 
 repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 

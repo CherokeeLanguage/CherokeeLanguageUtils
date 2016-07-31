@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'maven'
 
+version = '20160801'
 group "com.github.michael-joyner"
 
 sourceCompatibility = 1.7
@@ -12,7 +13,6 @@ if (new File(RTJAR).exists()) {
 	compileJava.options.bootClasspath=RTJAR
 }
 
-version = '20160801'
 
 repositories {
     jcenter()

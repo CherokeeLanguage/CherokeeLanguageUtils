@@ -12,15 +12,7 @@ if (new File(RTJAR).exists()) {
 	compileJava.options.bootClasspath=RTJAR
 }
 
-//jar {
-//  from project.sourceSets.main.allSource
-//  from project.sourceSets.main.output
-//  from ('src/main/resources') {
-//  	include 'client/stubs/**/*.java'
-//  }
-//}
-
-version = '20160731'
+version = '20160801'
 
 repositories {
     jcenter()
@@ -29,6 +21,22 @@ repositories {
 
 dependencies {
 	compile 'org.apache.commons:commons-lang3:+'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	javadoc.failOnError=false
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
 
 eclipseJdt << {

@@ -39,6 +39,10 @@ artifacts {
     archives javadocJar
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 30, 'seconds'
+}
+
 eclipseJdt << {
     File f = file('.settings/org.eclipse.core.resources.prefs')
     f.write('eclipse.preferences.version=1\n')

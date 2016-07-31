@@ -27,7 +27,6 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-
 dependencies {
 	compile 'org.apache.commons:commons-lang3:+'
 }

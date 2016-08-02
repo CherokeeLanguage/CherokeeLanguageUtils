@@ -1,4 +1,4 @@
 # CherokeeLanguageUtils
 Cherokee Language Utilities
 
-Available via jitpack.io: https://jitpack.io/#michael-joyner/CherokeeLanguageUtils
+Available for Gradle and Maven via jitpack.io: https://jitpack.io/#CherokeeLanguage/CherokeeLanguageUtils

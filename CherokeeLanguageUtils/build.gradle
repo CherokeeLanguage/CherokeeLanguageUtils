@@ -3,7 +3,7 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'maven'
 
 version = '20160801'
-group "com.github.michael-joyner"
+group "com.github.CherokeeLanguage"
 
 sourceCompatibility = 1.7
 compileJava.options.encoding = 'UTF-8'

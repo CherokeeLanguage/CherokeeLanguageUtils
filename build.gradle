@@ -1,0 +1,26 @@
+plugins {
+	id "java-library"
+	id "idea"
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileJava.options.release = 17
+compileTestJava.options.encoding = 'UTF-8'
+compileTestJava.options.release = 17
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.withSourcesJar()
+jar {
+	from sourceSets.main.allSource
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+repositories {
+	mavenCentral()
+	google()
+	maven { url "https://jitpack.io" }
+}
+
+dependencies {
+	implementation 'org.apache.commons:commons-lang3:+'
+}
+
